@@ -1,0 +1,10 @@
+.task-list { display: grid; gap: .75rem; }
+.task { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; padding: 1rem; border: 1px solid #e2e8f0; border-radius: .8rem; }
+.task--completed .task__title { text-decoration: line-through; color: #64748b; }
+.task__title { margin: 0 0 .25rem; font-size: 1rem; }
+.task__edit { width: 100%; padding: .45rem; border: 1px solid #2563eb; border-radius: .4rem; }
+.task__meta { color: #64748b; font-size: .8rem; }
+.task__actions { display: flex; gap: .4rem; }
+.task__actions button { padding: .45rem .65rem; border: 1px solid #cbd5e1; border-radius: .5rem; background: white; cursor: pointer; }
+.task__actions .task__delete { color: #dc2626; }
+@media (max-width: 700px) { .task { grid-template-columns: auto 1fr; } .task__actions { grid-column: 1 / -1; } }

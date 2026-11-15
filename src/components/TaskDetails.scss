@@ -1,0 +1,6 @@
+.modal { position: fixed; inset: 0; background: #0f172acc; display: grid; place-items: center; padding: 1rem; z-index: 10; }
+.modal__card { background: white; border-radius: 1rem; padding: 1.5rem; width: min(520px, 100%); position: relative; }
+.modal__close { position: absolute; right: 1rem; top: .7rem; border: 0; background: none; font-size: 2rem; cursor: pointer; }
+.details { display: grid; grid-template-columns: 1fr 2fr; gap: .7rem; }
+.details dt { font-weight: 800; }
+.details dd { margin: 0; }

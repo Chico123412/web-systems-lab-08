@@ -1,95 +1,48 @@
 import { useState, type FormEvent } from 'react'
-import type { Priority, Task } from '../types/task'
+import type { Priority, TaskDraft } from '../types/task'
+import './TaskForm.scss'
 
-interface TaskFormProps {
-  onAdd: (task: Omit<Task, 'id' | 'completed'>) => void
+interface Props {
+  disabled: boolean
+  onCreate: (draft: TaskDraft) => Promise<void>
 }
 
-export function TaskForm({ onAdd }: TaskFormProps) {
+export function TaskForm({ disabled, onCreate }: Props) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [category, setCategory] = useState('')
+  const [category, setCategory] = useState('React')
   const [priority, setPriority] = useState<Priority>('medium')
   const [error, setError] = useState('')
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent) => {
     event.preventDefault()
-    if (!title.trim()) {
-      setError('Вкажіть назву завдання')
-      return
-    }
-
-    onAdd({
-      title: title.trim(),
-      description: description.trim(),
-      category: category.trim() || 'Інше',
-      priority,
-    })
+    if (!title.trim()) return setError('Вкажіть назву завдання')
+    await onCreate({ title: title.trim(), description, category, priority, userId: 1 })
     setTitle('')
     setDescription('')
-    setCategory('')
-    setPriority('medium')
     setError('')
   }
 
   return (
     <section className="panel task-form">
-      <div className="section-heading">
-        <h2 className="section-heading__title">Нове завдання</h2>
-        <span className="section-heading__badge">Додати</span>
-      </div>
-
-      <form className="task-form__form" onSubmit={handleSubmit}>
-        <label className="field">
-          <span className="field__label">Назва *</span>
-          <input
-            className={`field__control ${error ? 'field__control--error' : ''}`}
-            value={title}
-            onChange={(event) => {
-              setTitle(event.target.value)
-              setError('')
-            }}
-            placeholder="Наприклад, вивчити useState"
-          />
+      <h2 className="task-form__title">Нове завдання</h2>
+      <form className="task-form__grid" onSubmit={submit}>
+        <label className="field">Назва *
+          <input value={title} onChange={(e) => { setTitle(e.target.value); setError('') }} />
           {error && <span className="field__error">{error}</span>}
         </label>
-
-        <label className="field field--wide">
-          <span className="field__label">Опис</span>
-          <textarea
-            className="field__control field__control--textarea"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder="Коротко опишіть завдання"
-          />
+        <label className="field">Опис
+          <input value={description} onChange={(e) => setDescription(e.target.value)} />
         </label>
-
-        <label className="field">
-          <span className="field__label">Категорія</span>
-          <input
-            className="field__control"
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-            placeholder="React, TypeScript..."
-          />
+        <label className="field">Категорія
+          <input value={category} onChange={(e) => setCategory(e.target.value)} />
         </label>
-
-        <label className="field">
-          <span className="field__label">Пріоритет</span>
-          <select
-            className="field__control"
-            value={priority}
-            onChange={(event) => setPriority(event.target.value as Priority)}
-          >
-            <option value="low">Низький</option>
-            <option value="medium">Середній</option>
-            <option value="high">Високий</option>
+        <label className="field">Пріоритет
+          <select value={priority} onChange={(e) => setPriority(e.target.value as Priority)}>
+            <option value="low">Низький</option><option value="medium">Середній</option><option value="high">Високий</option>
           </select>
         </label>
-
-        <button className="button button--primary task-form__button" type="submit">
-          + Додати завдання
-        </button>
+        <button className="button button--primary" disabled={disabled}>+ Додати</button>
       </form>
     </section>
   )
