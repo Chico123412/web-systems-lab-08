@@ -7,6 +7,21 @@ export interface Task {
   completed: boolean
   priority: Priority
   category: string
+  userId: number
 }
 
-export type TaskFilter = 'all' | 'completed' | 'active'
+export type TaskDraft = Omit<Task, 'id' | 'completed'>
+
+export interface ApiTodo {
+  id: number
+  todo: string
+  completed: boolean
+  userId: number
+}
+
+export interface TodosResponse {
+  todos: ApiTodo[]
+  total: number
+  skip: number
+  limit: number
+}
