@@ -1,0 +1,25 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.stat-card {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  color: #3730a3;
+  background: #eef2ff;
+
+  &--success { color: #047857; background: #ecfdf5; }
+  &--warning { color: #b45309; background: #fffbeb; }
+  &__value { font-size: 34px; font-weight: 850; }
+  &__label { font-weight: 700; }
+}
+
+@media (max-width: 720px) {
+  .stats { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,26 @@
+.filters {
+  display: flex;
+  gap: 6px;
+  padding: 5px;
+  border-radius: 13px;
+  background: #f1f5f9;
+
+  &__button {
+    padding: 9px 13px;
+    border: 0;
+    border-radius: 9px;
+    color: #64748b;
+    background: transparent;
+    font-weight: 750;
+
+    &--active {
+      color: #fff;
+      background: #4f46e5;
+      box-shadow: 0 4px 12px #4f46e540;
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .filters { overflow-x: auto; }
+}

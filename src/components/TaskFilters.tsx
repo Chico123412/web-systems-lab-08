@@ -1,9 +1,6 @@
+import { useTaskContext } from '../hooks/useTaskContext'
 import type { TaskFilter } from '../types/task'
-
-interface TaskFiltersProps {
-  activeFilter: TaskFilter
-  onChange: (filter: TaskFilter) => void
-}
+import './TaskFilters.scss'
 
 const filters: { value: TaskFilter; label: string }[] = [
   { value: 'all', label: 'Усі' },
@@ -11,7 +8,9 @@ const filters: { value: TaskFilter; label: string }[] = [
   { value: 'completed', label: 'Виконані' },
 ]
 
-export function TaskFilters({ activeFilter, onChange }: TaskFiltersProps) {
+export function TaskFilters() {
+  const { filter: activeFilter, setFilter } = useTaskContext()
+
   return (
     <div className="filters" aria-label="Фільтри завдань">
       {filters.map((filter) => (
@@ -19,7 +18,7 @@ export function TaskFilters({ activeFilter, onChange }: TaskFiltersProps) {
           className={`filters__button ${activeFilter === filter.value ? 'filters__button--active' : ''}`}
           key={filter.value}
           type="button"
-          onClick={() => onChange(filter.value)}
+          onClick={() => setFilter(filter.value)}
         >
           {filter.label}
         </button>

@@ -1,22 +1,21 @@
-interface TaskStatsProps {
-  total: number
-  completed: number
-  active: number
-}
+import { useTaskContext } from '../hooks/useTaskContext'
+import './TaskStats.scss'
 
-export function TaskStats({ total, completed, active }: TaskStatsProps) {
+export function TaskStats() {
+  const { totalCount, completedCount, activeCount } = useTaskContext()
+
   return (
     <section className="stats" aria-label="Статистика завдань">
       <article className="stat-card">
-        <span className="stat-card__value">{total}</span>
+        <span className="stat-card__value">{totalCount}</span>
         <span className="stat-card__label">Усього</span>
       </article>
       <article className="stat-card stat-card--success">
-        <span className="stat-card__value">{completed}</span>
+        <span className="stat-card__value">{completedCount}</span>
         <span className="stat-card__label">Виконано</span>
       </article>
       <article className="stat-card stat-card--warning">
-        <span className="stat-card__value">{active}</span>
+        <span className="stat-card__value">{activeCount}</span>
         <span className="stat-card__label">Залишилося</span>
       </article>
     </section>
