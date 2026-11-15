@@ -1,0 +1,23 @@
+.task-list { display: flex; flex-direction: column; gap: 12px; }
+
+.empty-state {
+  padding: 50px 20px;
+  text-align: center;
+  color: #64748b;
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    color: #4f46e5;
+    background: #eef2ff;
+    font-size: 24px;
+    font-weight: 900;
+  }
+
+  &__title { margin: 0; color: #334155; }
+  &__text { margin-bottom: 0; }
+}

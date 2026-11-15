@@ -1,53 +1,33 @@
 import { useState } from 'react'
-import './App.css'
+import './App.scss'
 import { Header } from './components/Header'
 import { TaskFilters } from './components/TaskFilters'
 import { TaskForm } from './components/TaskForm'
 import { TaskList } from './components/TaskList'
 import { TaskStats } from './components/TaskStats'
-import { initialTasks } from './data/initialTasks'
-import type { Task, TaskFilter } from './types/task'
+import { Toast } from './components/Toast'
+import { useTaskContext } from './hooks/useTaskContext'
+import type { Task } from './types/task'
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks)
-  const [filter, setFilter] = useState<TaskFilter>('all')
+  const [editingTask, setEditingTask] = useState<Task | null>(null)
+  const { resetTasks } = useTaskContext()
 
-  const addTask = (task: Omit<Task, 'id' | 'completed'>) => {
-    setTasks((currentTasks) => [
-      ...currentTasks,
-      { ...task, id: Date.now(), completed: false },
-    ])
+  const handleReset = () => {
+    setEditingTask(null)
+    resetTasks()
   }
-
-  const toggleTask = (id: number) => {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task,
-      ),
-    )
-  }
-
-  const deleteTask = (id: number) => {
-    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id))
-  }
-
-  const completedCount = tasks.filter((task) => task.completed).length
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === 'completed') return task.completed
-    if (filter === 'active') return !task.completed
-    return true
-  })
 
   return (
     <div className="app">
       <Header />
       <main className="app__main">
-        <TaskForm onAdd={addTask} />
-        <TaskStats
-          total={tasks.length}
-          completed={completedCount}
-          active={tasks.length - completedCount}
+        <TaskForm
+          key={editingTask?.id ?? 'new-task'}
+          editingTask={editingTask}
+          onFinishEditing={() => setEditingTask(null)}
         />
+        <TaskStats />
 
         <section className="panel tasks-panel">
           <div className="tasks-panel__header">
@@ -55,16 +35,17 @@ function App() {
               <p className="tasks-panel__eyebrow">Навчальний план</p>
               <h2 className="section-heading__title">Мої завдання</h2>
             </div>
-            <TaskFilters activeFilter={filter} onChange={setFilter} />
+            <div className="tasks-panel__controls">
+              <TaskFilters />
+              <button className="button button--secondary" type="button" onClick={handleReset}>
+                Скинути дані
+              </button>
+            </div>
           </div>
-          <TaskList
-            tasks={filteredTasks}
-            hasTasks={tasks.length > 0}
-            onToggle={toggleTask}
-            onDelete={deleteTask}
-          />
+          <TaskList onEdit={setEditingTask} />
         </section>
       </main>
+      <Toast />
     </div>
   )
 }
