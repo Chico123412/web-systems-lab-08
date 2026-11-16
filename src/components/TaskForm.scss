@@ -1,0 +1,9 @@
+.task-form {
+  &__title { margin: 0 0 1rem; }
+  &__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .button { align-self: end; }
+}
+.field { display: grid; gap: .4rem; font-weight: 700; }
+.field input, .field select { padding: .75rem; border: 1px solid #cbd5e1; border-radius: .65rem; font: inherit; }
+.field__error { color: #dc2626; font-size: .85rem; }
+@media (max-width: 700px) { .task-form__grid { grid-template-columns: 1fr; } }
